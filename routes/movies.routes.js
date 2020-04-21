@@ -1,13 +1,29 @@
 const express = require('express');
-const moviesMock  = require('../utils/mocks/movies');
+const MoviesServices = require('../services/movies');
 
 function moviesApp(app) {
     const router = express.Router();
     app.use('/api/movies', router);
+    const moviesServices = new MoviesServices();
 
     router.get('/', async function(req, res, next) {
+        const { tags } = req.query;
         try{
-            const movies = await Promise.resolve(moviesMock);
+            const movies = await moviesServices.getMovies({tags});
+
+            res.status(200).json({
+                data: movies,
+                message: 'movies listed'
+            });
+        } catch(err) {
+            next(err);
+        }
+    });
+
+    router.get('/:movieId', async function(req, res, next) {
+        const { movieId } = req.params;
+        try{
+            const movies = await moviesServices.getMovie({ movieId });
 
             res.status(200).json({
                 data: movies,
@@ -19,11 +35,12 @@ function moviesApp(app) {
     });
 
     router.post('/', async function(req, res, next) {
+        const { body: movie } = req;
         try{
-            const movies = await Promise.resolve(moviesMock.movies[0]);
+            const createMovie = await moviesServices.createMovie({ movie });
 
             res.status(201).json({
-                data: movies,
+                data: createMovie,
                 message: 'movie created'
             });
         } catch(err) {
@@ -31,9 +48,24 @@ function moviesApp(app) {
         }
     });
 
-    router.put('/:movieId', async function(req, res, next) {
+    router.patch('/:movieId', async function(req, res, next) {
+        const { body: movie, params: movieId} = req;
         try{
-            const movies = await Promise.resolve(moviesMock.movies[0].id);
+            const partialUpdateMovie = await moviesServices.partialUpdateMovie({ movieId, movie });
+
+            res.status(200).json({
+                data: partialUpdateMovie,
+                message: 'movie partial update'
+            });
+        } catch(err) {
+            next(err);
+        }
+    });
+
+    router.put('/:movieId', async function(req, res, next) {
+        const { body: movie, params: movieId} = req;
+        try{
+            const movies = await moviesServices.updateMovie({ movieId, movie });
 
             res.status(200).json({
                 data: movies,
@@ -45,8 +77,9 @@ function moviesApp(app) {
     });
 
     router.delete('/:movieId', async function(req, res, next) {
+        const { movieId } = req.params;
         try{
-            const deleteMovieId = await Promise.resolve(moviesMock.movies[0].id);
+            const deleteMovieId = await moviesServices.updateMovie({ movieId });
 
             res.status(200).json({
                 data: deleteMovieId,

@@ -1,4 +1,4 @@
-const movies = [
+const moviesMocks = [
     {
       id: 'd2a4a062-d256-41bb-b1b2-9d915af6b75e',
       title: 'Notti bianche, Le (White Nights)',
@@ -153,4 +153,4 @@ const movies = [
     }
 ];
 
-module.exports = {movies};
+module.exports = moviesMocks;
