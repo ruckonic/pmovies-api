@@ -10,7 +10,7 @@ function moviesApp(app) {
         const { tags } = req.query;
         try{
             const movies = await moviesServices.getMovies({tags});
-
+            throw new Error('Error getting movie');
             res.status(200).json({
                 data: movies,
                 message: 'movies listed'
