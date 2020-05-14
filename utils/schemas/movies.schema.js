@@ -18,7 +18,7 @@ const createMovieSchema = {
     duration: movieDurationSchema.required(),
     contentRatting: movieContentRattingSchema.required(),
     source: movieSourceSchema.required(),
-    tags: movieTagsSchema
+    tags: movieTagsSchema,
 };
 
 const updateMovieSchema = {
@@ -29,11 +29,11 @@ const updateMovieSchema = {
     duration: movieDurationSchema,
     contentRatting: movieContentRattingSchema,
     source: movieSourceSchema,
-    tags: movieTagsSchema
+    tags: movieTagsSchema,
 };
 
 module.exports = {
     movieIdSchema,
     createMovieSchema,
-    updateMovieSchema
-}
+    updateMovieSchema,
+};

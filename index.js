@@ -7,6 +7,7 @@ const morgan = require('morgan');
 
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies.routes');
+const userMoviesApi = require('./routes/userMovies.routes');
 
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middleware/errorHandlers');
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
 // routes
 moviesApi(app);
+userMoviesApi(app);
 
 // catch error 404
 app.use(notFoundHandler);
